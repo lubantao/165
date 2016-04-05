@@ -1,0 +1,259 @@
+\documentclass[11pt, oneside]{article}   	% use "amsart" instead of "article" for AMSLaTeX format
+\usepackage{geometry}                		% See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   		% ... or a4paper or a5paper or ... 
+%\geometry{landscape}                		% Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    		% Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}				% Use pdf, png, jpg, or eps§ with pdflatex; use eps in DVI mode
+								% TeX will automatically convert eps --> pdf in pdflatex		
+\usepackage{amssymb}
+\usepackage{amsmath,amssymb}
+\title{Homework 3}
+\author{Yepei Zhang 912465089}
+%\date{}							% Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+
+1.\\
+for a set: $\pi_{Highway}$\\
+\begin{tabular}{|c|}
+\hline
+Highway  \\
+\hline
+37\\
+43\\
+33\\
+38\\
+36\\
+\hline
+\end{tabular}\\
+AVG(Highway) = (37+43+33+38+36)/5=37.4\\
+
+for a bag: $\pi_{Highway}$\\
+\begin{tabular}{|c|}
+\hline
+Highway  \\
+\hline
+37\\
+43\\
+33\\
+38\\
+43\\
+33\\
+36\\
+\hline
+\end{tabular}\\
+AVG(Highway)=(37+43+33+38+43+33+36)/7=37.57\\
+
+2.\\
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline
+Model & City & Highway & Price & Maker & Type  \\
+\hline
+1001 & 33  & 37 & \$25000 & A & Car  \\
+1002 & 38  & 43 & \$27000 & A & Car  \\
+2001 & 30  & 33 & \$22500 & B & Car  \\
+2002 & 33  & 38 & \$26000 & $\perp$ & $\perp$  \\
+2003 & 40  & 43 & \$31000 & B & Car  \\
+3001 & 30  & 33 & \$23000 & C & Car  \\
+3002 & 33  & 36 & \$26500 & $\perp$ & $\perp$  \\
+1101 & $\perp$  & $\perp$ & $\perp$ & A & Pickup  \\
+2101 & $\perp$  & $\perp$ & $\perp$ & B & Pickup  \\
+2101 & $\perp$  & $\perp$ & $\perp$ & B & Pickup  \\
+2201 & $\perp$  & $\perp$ & $\perp$ & B & EV  \\
+3201 & $\perp$  & $\perp$ & $\perp$ & C & EV  \\
+\hline
+\end{tabular}\\
+
+
+3.\\
+
+(a)\\
+$Answer(model) \gets Car(model, city, highway, style, passengers, trunk, price) \ AND \ highway<35$\\
+
+(b)\\
+$Answer(model) \gets Pickup(model, city, highway, passengers, cargo, towing, price) \ AND \ cargo \geq 75 \ AND \ city<25 $\\
+
+(c)\\
+$W(model) \gets Car(model, city, highway, style, passengers, trunk, price) \ AND \ price\geq 25000 \ AND\ price \leq 60000   $\\
+$M(model) \gets Pickup(model, city, highway, passengers, cargo, towing, price) \ AND \ price\geq 25000 \ AND\ price \leq 60000 $\\
+$N(model) \gets EV(model, range, battery, passengers, price) \ AND \ price\geq 25000 \ AND\ price \leq 60000 $\\
+$MODEL(model) \gets W(model)$\\
+$MODEL(model) \gets M(model)$\\
+$MODEL(model) \gets N(model)$\\
+$Answer(maker) \gets Product(maker, model, type) \ AND \ NOT \ MODEL(model) $\\
+
+(d)\\
+$HC(mc, hc) \gets Car(mc, city, hc, style, passengers, trunk, price)$\\
+$HCS(mcs, hcs) \gets HC(mcs, hcs)$\\
+$AnswerC(hc) \gets HC(mc, hc) \ AND\ HCS(mcs, hcs) \ AND\ mc=mcs\ AND \ hc!=hcs $\\
+$HP(mc, hc) \gets Pickup(mc, city, hc, passengers, cargo, towing, price)$\\
+$HPS(mcs, hcs) \gets HP(mc, hc) $\\
+$Answer(hc) \gets HP(mc, hc) \ AND \ HPS(mcs, hcs)\ AND \ mc=mcs \ AND \ hc != hcs  $\\
+$Answer(hc) \gets AnswerC(hc)$\\
+
+(e)\\
+$CMCH(model, city, highway) \gets Car(model, city, highway, style, passengers, trunk, price)$\\
+$PMCH(model, city, highway) \gets Pickup(model, city, highway, passengers, cargo, towing, price)$\\
+$ALL(model, city, highway)\gets CMCH(model, city, highway) $\\
+$ALL(model, city, highway)\gets PMCH(model, city, highway)$\\
+$ALLS(m, c, h) \gets ALL(model, city, highway)$\\
+$NoMaxOrMin(model, city, highway, m, c, h) \gets ALL(model, city, highway)\ AND \  ALLS(m, c, h)\ AND \ $ 
+\hspace*{8cm}$0.55*city+0.45*highway < 0.55*c + 0.45*h $\\
+$NoMax(model) \gets NoMaxOrMin(model, city, highway, m, c, h)$\\
+$Answer(maker) \gets Product(maker, model, type) \ AND \ NOT\ NoMax(model) $\\
+
+(f)\\
+$M(model, city, highway, battery, range) \gets Car(model, city, highway, style, passengers, trunk, price)$\\
+\hspace*{7cm}$ \ AND\ range=0 \ AND \ battery=1$\\
+$M(model, city, highway, battery, range) \gets Pickup(model, city, highway, passengers, cargo, towing, price)$\\
+\hspace*{7cm}$ \ AND\ range=0 \ AND \ battery=1$\\
+$E(model,city, highway, range, battery) \gets EV(model, range, battery, passengers, price) $\\
+\hspace*{7cm}$ \ AND\ city=0 \ AND \ highway=0$\\
+$NoMax(model) \gets M(model, city, highway, battery, range)\ AND \ E(m, c, h, r, b)$\\ 
+\hspace*{3cm} $\ AND\ 0.55*city+0.45*highway + 33.1*range/battery $\\
+\hspace*{3cm} $< 0.55*c+0.45*h + 33.1*r/b$\\
+$Answer(maker) \gets Product(maker, model, type) \ AND \ NOT\ NoMax(model) $\\
+
+(g)\\
+$MC(model, highway) \gets Car(model, city, highway, style, passengers, trunk, price)$\\
+$MP(model, highway) \gets Pickup(model, city, highway, passengers, cargo, towing, price)$\\
+$CarMaker(maker, model, highway) \gets Product(maker, model, type) \ AND \ MC(model, highway)$\\
+$PickupMaker(m, mo, h) \gets Product(m, mo, type) \ AND \ MP(mo, h)$\\
+$NoLower(maker) \gets CarMaker(maker, model, highway) \ AND \ PickupMaker(m, mo, h) \ AND $
+\hspace*{3.5cm}$\ maker=m \ AND \ highway> h$\\
+$Answer(maker)\gets CarMaker(maker, model, highway) \ AND \ NOT\ NoLower(maker)$\\
+
+(h)\\
+$MH(model, higway)\gets Car(model, city, highway, style, passengers, trunk, price) $\\
+$MH(model, highway)\gets Pickup(model, city, highway, passengers, cargo, towing, price)$\\
+$VeMaker(maker, model, highway)\gets Product(maker, model, type) \ AND\ MH(model, highway) $\\
+$VeMakerS(ms, mos, hs)\gets VeMaker(ms, mos, hs)$\\
+$VeMakerSS(mss, moss, hss)\gets VeMaker(mss, moss, hss)$\\
+$Diff(maker, model, highway, ms, mos, hs, mss, moss, hss)\gets VeMaker(maker, model, highway) \ AND\ $\\
+\hspace*{3cm}$VeMakerS(ms, mos, hs)\ AND\ VeMakerSS(mss, moss, hss)\ AND$\\
+\hspace*{3cm}$ maker=ms\ AND \ maker=ms\ AND \ highway!=hs\ AND \ $\\
+\hspace*{3cm}$highway!=hss\ AND \ hs!=hss$\\
+$Answer(maker)\gets Diff(maker, model, highway, ms, mos, hs, mss, moss, hss)$\\
+
+4\\
+
+(a)\\
+SELECT model\\
+FROM Car\\
+WHERE highway$<$35;\\
+
+(b)\\
+SELECT model\\
+FROM Pickup\\
+WHERE cargo$>=$75 AND city$<$25;\\
+
+(c)\\
+((SELECT maker FROM Product, Car WHERE Product.model = Car.model AND price$<$25000)\\
+UNION\\
+(SELECT maker FROM Product, Pickup WHERE Product.model = Pickup.model AND price$<$25000)\\
+UNION\\
+(SELECT maker FROM Product, EV WHERE Product.model = EV.model AND price$<$25000))
+INTERCEPT\\
+((SELECT maker FROM Product, Car WHERE Product.model = Car.model AND price$>$60000)\\
+UNION\\
+(SELECT maker FROM Product, Pickup WHERE Product.model = Pickup.model AND price$>$60000)\\
+UNION\\
+(SELECT maker FROM Product, EV WHERE Product.model = EV.model AND price$>$60000));\\
+
+(d)\\
+(SELECT Car1.highway AS highway\\
+FROM Car Car1, Car Car2\\
+WHERE Car1.model$< \ > $ Car2.model AND Car1.highway=Car2.highway)\\
+UNION\\
+(SELECT Pickup1.highway AS highway\\
+FROM Pickup Pickup1, Pickup Pickup2\\
+WHERE Pickup1.model$< \ > $ Pickup2.model AND Pickup1.highway=Pickup2.highway);\\
+
+(e)\\
+SELECT maker\\
+FROM\\
+\hspace*{1cm} (( SELECT maker, (0.55*city+0.45*highway) AS economy\\
+\hspace*{1cm} FROM Product NATURAL JOIN Car)\\
+\hspace*{1cm} UNION\\
+\hspace*{1cm}( SELECT maker, (0.55*city+0.45*highway) AS economy\\
+\hspace*{1cm} FROM Product NATURAL JOIN Pickup))\\
+WHERE economy = MAX(economy);\\
+
+(f)\\
+SELECT maker\\
+FROM\\
+\hspace*{1cm} (( SELECT maker, (0.55*city+0.45*highway) AS economy\\
+\hspace*{1cm} FROM Product NATURAL JOIN Car)\\
+\hspace*{1cm} UNION\\
+\hspace*{1cm}( SELECT maker, (0.55*city+0.45*highway) AS economy\\
+\hspace*{1cm} FROM Product NATURAL JOIN Pickup))\\
+\hspace*{1cm} UNION\\
+\hspace*{1cm}( SELECT maker, 33.1*range/battery AS economy\\
+\hspace*{1cm} FROM Product NATURAL JOIN EV))\\
+WHERE economy = MAX(economy);\\
+
+(g)\\
+SELECT maker\\
+FROM Car,\\
+\hspace*{1cm} (SELECT maker, MIN(highway) AS p, model AS m\\
+\hspace*{1cm}  FROM Product, Pickup\\
+\hspace*{1cm}  GROUP BY maker)\\
+WHERE Car.model = m, AND highway $<$p;\\
+
+(h)\\
+(SELECT maker)\\
+FROM Product NATURAL JOIN Car\\
+GROUP BY maker\\
+HAVING COUNT( DISTINCT highway) $>=3$)\\
+UNION\\
+(SELECT maker)\\
+FROM Product NATURAL JOIN Pickup\\
+GROUP BY maker\\
+HAVING COUNT( DISTINCT highway) $>=3$)\\
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}  

@@ -1,0 +1,98 @@
+% XeLaTeX can use any Mac OS X font. See the setromanfont command below.
+% Input to XeLaTeX is full Unicode, so Unicode characters can be typed directly into the source.
+
+% The next lines tell TeXShop to typeset with xelatex, and to open and save the source with Unicode encoding.
+
+%!TEX TS-program = xelatex
+%!TEX encoding = UTF-8 Unicode
+
+\documentclass[12pt]{article}
+\usepackage{geometry}                % See geometry.pdf to learn the layout options. There are lots.
+\geometry{letterpaper}                   % ... or a4paper or a5paper or ... 
+%\geometry{landscape}                % Activate for for rotated page geometry
+%\usepackage[parfill]{parskip}    % Activate to begin paragraphs with an empty line rather than an indent
+\usepackage{graphicx}
+\usepackage{amssymb}
+\usepackage{indentfirst}
+\usepackage{amsmath}
+
+% Will Robertson's fontspec.sty can be used to simplify font choices.
+% To experiment, open /Applications/Font Book to examine the fonts provided on Mac OS X,
+% and change "Hoefler Text" to any of these choices.
+
+\usepackage{fontspec,xltxtra,xunicode}
+\defaultfontfeatures{Mapping=tex-text}
+\setromanfont[Mapping=tex-text]{Hoefler Text}
+\setsansfont[Scale=MatchLowercase,Mapping=tex-text]{Gill Sans}
+\setmonofont[Scale=MatchLowercase]{Andale Mono}
+
+\title{Homework 1}
+\author{Yepei Zhang 912465089}
+%\date{}                                           % Activate to display a given date or no date
+
+\begin{document}
+\maketitle
+
+\par
+1.\\
+(a). $Answer(model):=\pi_{model}(\sigma_{city<40}(Car))$\\
+(b). $Answer(model):=\pi_{model}(\sigma_{towing\geq 12000\, AND\, highway\geq 20}(Pickup))$\\
+(c). \\
+ $CP(model,price):=\pi_{model,price}(Car)$\\
+ $PM(maker,model):=\pi_{maker,model}(Product)$\\
+ $NA(maker):=\pi_{maker}(PM \bowtie_{CP.price>25000\, AND\, CP.price<60000} CP)$\\
+ $Answer(maker):=\pi_{maker}(PM)-\pi_{maker}(NA)$\\
+(d). \\
+$CP(model,price):=\pi_{model,price}(Car)$\\
+$CP1(model,price):=CP$\\
+$Answer(model):=\rho_{(model)} \pi_{CP.model}(CP \bowtie_{CP.model=CP1.mocel \, AND CP.price \neq CP1.price} CP1))$\\
+(e). \\
+$PM(maker,model):=\pi_{maker,model}(Product)$\\
+$CMCH(model, city, highway):=\pi_{model,city,highway}(Car)$\\
+$PMCH(model,city,highway):=\pi_{model,city,highway}(Pickup)$\\
+$R(A,B,C,D):=\rho_{(A,B,C,D)}(PM \bowtie CMCH)$\\
+$R1(A,B,C,D):=R$\\
+$NoMaxOrMin(R.A,R.B,R.C,R.D,R1.A,R1.B,R1.C,R1.D):= R \bowtie_{0.55R.C+0.45R.D>0.55R1.C+0.45R1.D} R1$\\
+$Min(maker):=\rho_{maker}(\pi_{A}(R)-\pi_{R1.A}(NoMaxOrMin))$\\
+(f). As discussed above, $Max(model):=\rho_{model}(\pi_{B}(R)-\pi_{R.B}(NoMaxOrMin))$\\
+\par
+2.\\
+(a).$\pi_{model}(\sigma_{towing<12000}(Pickup)\cap \pi_{model}(\sigma_{price>25000}(Pickup)))=\emptyset$\\
+(b). $\pi_{model}(\sigma_{range \geqslant 95}(EV))-\pi_{model}(EV)=\emptyset$\\
+(c). \\
+$CMCHP(model,city,highway,price):=\pi_{model,city,highway,price}(Car)$\\
+$\pi_{model}(\sigma_{city \geqslant 50 \, AND highway<40}(CMCHP)) \cap \pi_{model}(\sigma_{city \geqslant 50 \, AND \, price>20}(CMCHP))=\emptyset$\\
+(d). \\
+$PMM(maker,model):=\pi_{maker,model}(Product)$\\
+$\pi_{maker}(PMM \bowtie Pickup) \cap \pi_{maker}(PMM \bowtie EV)=\emptyset $\\
+(e).\\
+ $PMM(maker,model):=\pi_{maker,model}(Product)$\\
+ $PC(maker,model,city):=\pi_{maker,model,city}(PMM \bowtie Car)$\\
+ $PP(maker,model,city):= \pi_{maker,model,city}(PMM \bowtie Pickup)$\\
+ $AMaker(maker):=\rho_{(maker)}(\pi_{PC.maker}(PC \bowtie_{PC.city>PP.city} PP))$\\
+ $Amaker(maker)-\pi_{maker}(PC)=\emptyset$\\
+ (f). \\
+ $PCP(city,price):=\pi_{city,price}(Pickup)$\\
+ $CCP(city,price):=\pi_{city,price}(Car)$\\
+ $TOTAL(PCP.city,PCP.price,CCP.city,CCP.price):=PCP \times CCP$\\
+ $\sigma_{PCP.city>CCP.city \, AND PCP.price<1.5CCP.price}(TOTAL)=\emptyset $\\
+ \par
+ 3.
+ (a). $P_{x} \to V_{x}$, $P_{y} \to V_{y}$, $P_{z} \to V_{z}$\\
+ (b). ${P_{x},P_{y} ,P_{z} }^{+} \to {P_{x},P_{y} ,P_{z}, V_{x}, V_{y}, V_{z}}$\\
+ (c). ${P_{x},P_{y} ,P_{z}, V_{x} }^{+}$, ${P_{x},P_{y} ,P_{z}, V_{y} }^{+}$, ${P_{x},P_{y} ,P_{z}, V_{z} }^{+}$\\
+ (d). It is the same with the number of the super sets of ${P_{x},P_{y} ,P_{z} }^{+}$. Except the key, the number of super keys is $\binom{3}{1}+\binom{3}{2}+\binom{3}{3}=7$
+
+
+
+
+
+
+
+
+
+
+
+
+
+\end{document}  
